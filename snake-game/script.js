@@ -12,6 +12,8 @@ const DIRECTION = {
 
 const MOVE_INTERVAL = 120;
 
+let playerLives = 3;
+
 function initPosition() {
   return {
     x: Math.floor(Math.random() * WIDTH),
@@ -32,12 +34,12 @@ function initDirection() {
   return Math.floor(Math.random() * 4);
 }
 
-function initSnake(color) {
+function initSnake(color, score) {
   return {
     color: color,
     ...initHeadAndBody(),
     direction: initDirection(),
-    score: 0,
+    score: score || 0,
   };
 }
 let snake = initSnake("purple");
@@ -49,6 +51,26 @@ let apples = [
   {
     color: "green",
     position: initPosition(),
+  },
+];
+let lives = [
+  {
+    position: {
+      x: 10,
+      y: 10,
+    },
+  },
+  {
+    position: {
+      x: 30,
+      y: 10,
+    },
+  },
+  {
+    position: {
+      x: 50,
+      y: 10,
+    },
   },
 ];
 
@@ -65,6 +87,17 @@ function drawScore(snake) {
   scoreCtx.font = "30px Arial";
   scoreCtx.fillStyle = snake.color;
   scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+}
+
+function drawLives() {
+  let livesCanvas = document.getElementById("livesBoard");
+  let ctx = livesCanvas.getContext("2d");
+  ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  for (var i = 0; i < playerLives; i++) {
+    let live = lives[i];
+    var img = document.getElementById("heart");
+    ctx.drawImage(img, live.position.x, live.position.y, CELL_SIZE, CELL_SIZE);
+  }
 }
 
 function draw() {
@@ -90,6 +123,7 @@ function draw() {
       );
     }
     drawScore(snake);
+    drawLives();
   }, REDRAW_INTERVAL);
 }
 
@@ -154,8 +188,12 @@ function checkCollision(snakes) {
     }
   }
   if (isCollide) {
-    alert("Game over");
-    snake = initSnake("purple");
+    playerLives--;
+    if (playerLives == 0) {
+      alert("Game over");
+      playerLives = 3;
+      snake = initSnake("purple");
+    } else snake = initSnake("purple", snake.score);
   }
   return isCollide;
 }
