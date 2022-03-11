@@ -45,14 +45,13 @@ function initSnake(color, score) {
 let snake = initSnake("purple");
 let apples = [
   {
-    color: "red",
     position: initPosition(),
   },
   {
-    color: "green",
     position: initPosition(),
   },
 ];
+let liveFoodPosition = initPosition();
 let lives = [
   {
     position: {
@@ -96,8 +95,21 @@ function drawLives() {
   for (var i = 0; i < playerLives; i++) {
     let live = lives[i];
     var img = document.getElementById("heart");
+    if (!live)
+      lives.push({
+        position: {
+          x: lives[i - 1].position.x + 20,
+          y: 10,
+        },
+      });
     ctx.drawImage(img, live.position.x, live.position.y, CELL_SIZE, CELL_SIZE);
   }
+}
+
+function isPrime(num) {
+  for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+    if (num % i === 0) return false;
+  return num > 1;
 }
 
 function draw() {
@@ -118,6 +130,16 @@ function draw() {
         img,
         apple.position.x * CELL_SIZE,
         apple.position.y * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
+      );
+    }
+    if (isPrime(snake.score)) {
+      var img = document.getElementById("heart");
+      ctx.drawImage(
+        img,
+        liveFoodPosition.x * CELL_SIZE,
+        liveFoodPosition.y * CELL_SIZE,
         CELL_SIZE,
         CELL_SIZE
       );
@@ -150,6 +172,14 @@ function eat(snake, apples) {
       snake.score++;
       snake.body.push({ x: snake.head.x, y: snake.head.y });
     }
+  }
+  if (
+    snake.head.x === liveFoodPosition.x &&
+    snake.head.y === liveFoodPosition.y
+  ) {
+    playerLives++;
+    snake.score += 2;
+    liveFoodPosition = initPosition();
   }
 }
 
