@@ -1,0 +1,32 @@
+body {
+  background-color: #f2f2f2;
+  font-family: "Roboto", sans-serif;
+}
+
+#snakeBoard {
+  border: 1px solid #000;
+  border-radius: 10px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.score-board,
+.level-board {
+  margin: 25px;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+}

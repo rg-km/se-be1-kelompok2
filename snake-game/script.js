@@ -197,18 +197,37 @@ function drawScore(snake) {
   scoreCanvas = document.getElementById("score1Board");
   let scoreCtx = scoreCanvas.getContext("2d");
   scoreCtx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  scoreCtx.font = "30px Arial";
-  scoreCtx.fillStyle = snake.color;
-  scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
+  scoreCtx.font = "bold 28px Roboto";
+  scoreCtx.fillStyle = "black";
+  scoreCtx.fillText("Score: ", 10, 30);
+  scoreCtx.font = "28px Roboto";
+  scoreCtx.fillText(
+    snake.score,
+    scoreCanvas.scrollWidth / 2 - scoreCtx.measureText(snake.score).width / 2,
+    70
+  );
 }
 
 function drawLevel() {
   let levelCanvas = document.getElementById("levelBoard");
   let ctx = levelCanvas.getContext("2d");
   ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  ctx.font = "30px Arial";
+  ctx.font = "bold 28px Roboto";
   ctx.fillStyle = "black";
-  ctx.fillText(level, 10, levelCanvas.scrollHeight / 2);
+  ctx.fillText("Level: ", 15, 30);
+  ctx.font = "28px Roboto";
+  ctx.fillText(
+    level,
+    levelCanvas.scrollWidth / 2 - ctx.measureText(level).width / 2,
+    70
+  );
+  ctx.font = "15px Roboto";
+  ctx.fillText(
+    `${moveInterval} ms`,
+    levelCanvas.scrollWidth / 2 -
+      ctx.measureText(`${moveInterval} ms`).width / 2,
+    95
+  );
 }
 
 function drawLives() {
