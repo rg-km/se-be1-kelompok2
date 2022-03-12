@@ -386,6 +386,8 @@ function checkCollision(snakes) {
     }
   }
   if (isCollide) {
+    var audio = new Audio("crash.wav");
+    audio.play();
     playerLives--;
     if (playerLives == 0) {
       var audio = new Audio("game-over.wav");
