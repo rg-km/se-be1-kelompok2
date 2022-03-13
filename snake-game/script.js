@@ -272,9 +272,25 @@ function draw() {
 
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-    drawCell(ctx, snake.head.x, snake.head.y, snake.color);
+    var img = document.getElementById("snakeHead");
+    ctx.drawImage(
+      img,
+      snake.head.x * CELL_SIZE,
+      snake.head.y * CELL_SIZE,
+      CELL_SIZE,
+      CELL_SIZE
+    );
+
+    var img = document.getElementById("snakeBody");
+
     for (let i = 1; i < snake.body.length; i++) {
-      drawCell(ctx, snake.body[i].x, snake.body[i].y, snake.color);
+      ctx.drawImage(
+        img,
+        snake.body[i].x * CELL_SIZE,
+        snake.body[i].y * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE
+      );
     }
     for (let i = 0; i < apples.length; i++) {
       let apple = apples[i];
@@ -319,7 +335,7 @@ function teleport(snake) {
   }
 }
 
-function increaseLevel() {
+function checkLevel() {
   if (snake.score === 30) {
     let audio = new Audio("win.wav");
     audio.play();
@@ -328,11 +344,13 @@ function increaseLevel() {
     snake = initSnake("purple");
     return;
   }
-  let audio = new Audio("level-up.wav");
-  audio.play();
-  moveInterval -= 20;
-  snake.score++;
-  level++;
+  if (Math.floor(snake.score / 5) + 1 > level) {
+    let audio = new Audio("level-up.wav");
+    audio.play();
+    moveInterval -= 20;
+    snake.score++;
+    level = Math.floor(snake.score / 5) + 1;
+  }
 }
 
 function eat(snake, apples) {
@@ -357,7 +375,11 @@ function eat(snake, apples) {
     liveFoodPosition = initPosition();
   }
 
-  if (snake.score % 5 === 0 && snake.score > 0) increaseLevel();
+  // if (snake.score % 5 === 0 && snake.score > 0 && snake.score < 25)
+  //   increaseLevel();
+  if (snake.score < 25) {
+    checkLevel();
+  }
 }
 
 function moveLeft(snake) {
