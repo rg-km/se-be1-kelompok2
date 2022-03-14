@@ -337,7 +337,7 @@ function teleport(snake) {
 
 function checkLevel() {
   if (snake.score === 30) {
-    let audio = new Audio("win.wav");
+    let audio = new Audio("assets/audio/win.wav");
     audio.play();
     alert("You won!");
     playerLives = 3;
@@ -345,7 +345,7 @@ function checkLevel() {
     return;
   }
   if (Math.floor(snake.score / 5) + 1 > level) {
-    let audio = new Audio("level-up.wav");
+    let audio = new Audio("assets/audio/level-up.wav");
     audio.play();
     moveInterval -= 20;
     snake.score++;
@@ -368,7 +368,7 @@ function eat(snake, apples) {
     snake.head.y === liveFoodPosition.y &&
     isPrime(snake.score)
   ) {
-    var audio = new Audio("add-live.wav");
+    var audio = new Audio("assets/audio/add-live.wav");
     audio.play();
     playerLives++;
     snake.score += 2;
@@ -427,11 +427,11 @@ function checkCollision(snakes) {
     }
   }
   if (isCollide) {
-    var audio = new Audio("crash.wav");
+    var audio = new Audio("assets/audio/crash.wav");
     audio.play();
     playerLives--;
     if (playerLives == 0) {
-      var audio = new Audio("game-over.wav");
+      var audio = new Audio("assets/audio/game-over.wav");
       audio.play();
       alert("Game over");
       playerLives = 3;
